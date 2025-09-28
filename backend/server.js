@@ -30,12 +30,17 @@ mongoose.connect(mongoURI)
 
 // MySQL initialization
 const initMySQL = () => {
-  const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  });
+  // Use MYSQL_URL if available, otherwise use individual variables
+  const dbConfig = process.env.MYSQL_URL ? 
+    process.env.MYSQL_URL : 
+    {
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME
+    };
+  
+  const db = mysql.createConnection(dbConfig);
 
   const createUsersTable = `
     CREATE TABLE IF NOT EXISTS users (
