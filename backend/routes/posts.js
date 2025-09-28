@@ -4,7 +4,6 @@ const Post = require("../models/Post");
 const authMiddleware = require("../middleware/authMiddleware"); // JWT check
 const upload = require("../middleware/uploadMiddleware"); // Cloudinary upload
 
-// Create post (only logged in users)
 router.post("/posts", authMiddleware, upload.single('image'), async (req, res) => {
   const { title, content } = req.body;
   
